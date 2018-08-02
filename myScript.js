@@ -29,18 +29,18 @@ class Title extends React.Component {
     super(props);
   }
   render() {
-    const { openGallery, restorePictures } = this.props;
+    const { openGallery, realignPictures, browseAlbums } = this.props;
 
     return (
       <div id="title" className="row justify-content-center">
-        <div className="col- icons albums">
-          <i class="fas fa-images" />
+        <div id="browse" className="col- icons">
+          <i class="fas fa-images" onClick={browseAlbums} title="Browse Albums"/>
         </div>
-        <div className="col- name">
+        <div id="name" className="col- ">
           <h1 onClick={openGallery}>Photo Memory Lane</h1>
         </div>
-        <div className="col- icons restore">
-          <i class="fas fa-window-restore" onClick={restorePictures} />
+        <div id="realign" className="col- icons">
+          <i class="fas fa-align-justify" onClick={realignPictures} title="Realign Grid"/>
         </div>
       </div>
     );
@@ -80,6 +80,38 @@ const Footer = () => {
     </div>
   );
 };
+
+class Sidebar extends React.Component {
+  constructor(props) {
+    super(props);
+  
+  }
+  
+  render() {
+
+    return (
+      <div id="albums" class="">
+          <nav id="navbar" className="">
+            <header>
+              <div className="row justify-content-center">
+                <div className="col-">
+                  <h1><i class="far fa-images"></i>Photo</h1>
+                </div>
+                <div className="col-">
+                  <h5>Albums</h5>
+                </div>
+              </div>
+            </header>
+            <ol id="section-nav" className="nav-list text-center">
+              <li id="0" className="active"><a className="nav-link" href="#Beginning">Beginning</a></li>
+              <li id="1"><a className="nav-link" href="#Wedding">Wedding</a></li>
+              <li id="2"><a className="nav-link" href="#Vacation">Vacation</a></li>
+            </ol>
+          </nav>          
+        </div>
+    );
+  }
+}
 
 class Gallery extends React.Component {
   constructor(props) {
@@ -152,17 +184,41 @@ class Gallery extends React.Component {
     ];
 
     this.state = {
-      pictures: this.photoAlbum
+      pictures: this.photoAlbum,
+      active: false
     };
 
-    this.setPhotoAlbumOne = this.setPhotoAlbumOne.bind(this);
-    this.restorePictures = this.restorePictures.bind(this);
+    this.browseAlbums = this.browseAlbums.bind(this);
+    this.realignPictures = this.realignPictures.bind(this);
     this.openPicture = this.openPicture.bind(this);
     this.openGallery = this.openGallery.bind(this);    
     
   }
 
-  setPhotoAlbumOne() {}
+  browseAlbums() {
+    let uiAlbums = $("#albums"),
+        uiBrowse = $("#browse");
+    
+    if (this.state.active === false) {
+      uiBrowse.addClass("open");
+      uiAlbums.show();
+      uiAlbums.removeClass("albums-animation-out");
+      uiAlbums.addClass("albums-animation-in");
+      this.setState({
+        active: true
+      });
+    } else {
+      this.setState({
+        active: false
+      });
+      uiBrowse.removeClass("open");
+      uiAlbums.removeClass("albums-animation-in");
+      uiAlbums.addClass("albums-animation-out");
+      setTimeout(() => {
+        uiAlbums.hide();
+      }, 500) 
+    }
+  }
 
   openGallery() {
     let uiGallery = $("#photo-gallery"),
@@ -179,7 +235,7 @@ class Gallery extends React.Component {
       .addClass("justify-content-between")
       .css("margin-top", "0px")
       .css("padding", "10px")
-      .css("border", "3px solid #111")
+      .css("border-bottom", "3px solid #111")
       .addClass("title-grad")
       .addClass("fixed-top");
     uiTitleH1
@@ -196,9 +252,11 @@ class Gallery extends React.Component {
   }
 
   openPicture() {
-    let uiThumbLinks = $("#thumbs li");
+    let uiThumbLinks = $("#thumbs li"),
+        uiRealign = $("#realign");
     
     uiThumbLinks.click(function() {
+      uiRealign.addClass("open");
       $(this)
         .addClass("active")
         .siblings()
@@ -208,11 +266,13 @@ class Gallery extends React.Component {
     //console.log(this.playKeys[key]);
   }
   
-  restorePictures() {
+  realignPictures() {
     let uiThumbLinks = $("#thumbs li"),
-        uiRestore = $(".restore");
+        uiRealign = $("#realign");
     
-    uiRestore.click(function() {
+    uiRealign.removeClass("open");
+    
+    uiRealign.click(function() {
       uiThumbLinks.siblings().removeClass("active");
     });
     
@@ -220,8 +280,17 @@ class Gallery extends React.Component {
 
   componentDidMount() {
     window.focus();
-    this.restorePictures();
+    this.realignPictures();
     this.openPicture();
+    
+    let uiNavLinks = $(".nav-list li");
+    
+    uiNavLinks.click(function() {
+      $(this)
+        .addClass("active")
+        .siblings()
+        .removeClass("active");
+    });
   }
 
   render() {
@@ -248,8 +317,10 @@ class Gallery extends React.Component {
       <div id="wrapper">
         <Title
           openGallery={this.openGallery}
-          restorePictures={this.restorePictures}
+          realignPictures={this.realignPictures}
+          browseAlbums={this.browseAlbums}
           />
+        <Sidebar />
         <div id="photo-gallery">
           <div className="thumbs-box">
             <ul id="thumbs" className="text-center">
