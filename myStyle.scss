@@ -37,14 +37,14 @@ SOFTWARE. */
   box-shadow: $x $y $blur $c;
 }
 @mixin box-shadow-inset($inset, $x, $y, $blur, $spread, $c) {
-  -webkit-box-shadow: inset $x $y $blur $spread $c;
-  -moz-box-shadow: inset $x $y $blur $spread $c;
-  -ms-box-shadow: inset $x $y $blur $spread $c;
-  box-shadow: inset $x $y $blur $spread $c;
+  -webkit-box-shadow: $inset $x $y $blur $spread $c;
+  -moz-box-shadow: $inset $x $y $blur $spread $c;
+  -ms-box-shadow: $inset $x $y $blur $spread $c;
+  box-shadow: $inset $x $y $blur $spread $c;
 }
 
 body {
-  background-color: #343a40;
+  background: #343a40;
 }
 
 #content {
@@ -55,30 +55,46 @@ body {
 
 #title {
   padding: 50px;
-  margin-top: 15%;
+  margin-top: 17%;
   //@include box-shadow(10px, 10px, 15px, #111);
-  transition: 0.5s;
-  .icons {
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(0, 0, 0, 0.8),
+    rgba(0, 0, 0, 0.8),
+    transparent
+  );
+  transition: 0.5s;  
+  .icons {    
     cursor: pointer;
     display: none;
-    padding: 0px 20px 0px 20px;
+    padding: 7px 20px 0px 20px;
     i {
-      font-size: 52px;
+      font-size: 42px;
       background: #828c96;      
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
     i:hover {
       background: #00f260;
-      background: -webkit-linear-gradient(to left, #007eff, #00ff65);
-      background: linear-gradient(to left, #007eff, #00ff65);
+      background: -webkit-linear-gradient(to right, #8b80fc, #ffcccc);
+      background: linear-gradient(to right, #8b80fc, #ffcccc);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }  
   }
-  .albums {    
+  .open {
+    i {
+      background: #00f260;
+      background: -webkit-linear-gradient(to right, #8b80fc, #ffcccc);
+      background: linear-gradient(to right, #8b80fc, #ffcccc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
   }
-  .restore {    
+  .browse {    
+  }
+  .realign {    
   }
   h1 {
     margin: 0 auto;
@@ -87,8 +103,8 @@ body {
     font-size: 102px;
     @include radius(20px);
     background: #00f260;
-    background: -webkit-linear-gradient(to right, #007eff, #00ff65);
-    background: linear-gradient(to right, #007eff, #00ff65);
+    background: -webkit-linear-gradient(to right, #ffcccc, #8b80fc);
+    background: linear-gradient(to right, #ffcccc, #8b80fc);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     cursor: pointer;
@@ -99,14 +115,8 @@ body {
   }
 }
 
-#title:hover {
-  background: linear-gradient(
-    to right,
-    transparent,
-    rgba(0, 0, 0, 0.8),
-    rgba(0, 0, 0, 0.8),
-    transparent
-  );
+.justify-content-center {
+  transform: scale(0.98, 0.98);
   transition: 0.5s;
 }
 
@@ -136,6 +146,120 @@ body {
   }
 }
 
+#albums {
+  display: none;
+  opacity: 0;
+  position: fixed;  
+  transition: 0.5s;
+  //margin-top: 2%;
+  height: 100%;
+  //width: 19.5%;
+  width: 374px;
+  padding: 50px;
+  background: linear-gradient( to left, #343a40, rgba(0, 0, 0, 1) );
+  //background: #343a40;
+  z-index: 10;
+  transition: 0.5s;
+  @include box-shadow(0px, 0px, 5px, #222);
+  #navbar {
+    h1 {
+      background: #00f260;
+      background: -webkit-linear-gradient(to left, #8b80fc, #ffcccc);
+      background: linear-gradient(to left, #8b80fc, #ffcccc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    h5 {
+      background: #00f260;
+      background: -webkit-linear-gradient(to right, #8b80fc, #ffcccc);
+      background: linear-gradient(to right, #8b80fc, #ffcccc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    i {
+      background: #00f260;
+      background: -webkit-linear-gradient(to right, #8b80fc, #ffcccc);
+      background: linear-gradient(to right, #8b80fc, #ffcccc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      }
+    }
+  #section-nav {
+    list-style: none;
+    padding: 10px 0px 0px 0px;
+    .active {
+      //background: #61dafb;
+      a {
+        border: 2px solid #828c96;
+        border-top: none;
+        border-bottom: none;
+        @include radius(10px);
+        background: #8b80fc;
+        background: -webkit-linear-gradient(to right, #8b80fc, #ffcccc);
+        background: linear-gradient(to right, #8b80fc, #ffcccc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        //@include box-shadow-inset(inset, 0px, 0px, 15px, 2px, #8b80fc);
+      }
+    }
+    li {
+      margin: 0 auto;
+      width: 60%;
+      color: #828c96;
+      font-size: 24px;
+      padding: 5px;
+      a {
+        background: #828c96;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      a:hover {
+        background: #8b80fc;
+        background: -webkit-linear-gradient(to right, #8b80fc, #ffcccc);
+        background: linear-gradient(to right, #8b80fc, #ffcccc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+  }  
+}
+
+.albums-animation-in {  
+  animation: slideFromLeft ease 500ms;
+  animation-iteration-count: 1;
+  transform-origin: 50% 50%;
+  animation-fill-mode: forwards;
+}
+
+@keyframes slideFromLeft {
+  0% {
+    opacity: 0;
+    transform: translate(-500px, 0px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0px, 0px);
+  }
+}
+
+.albums-animation-out {  
+  animation: slideFromRight ease 500ms;
+  animation-iteration-count: 1;
+  transform-origin: 50% 50%;
+  animation-fill-mode: forwards;
+}
+
+@keyframes slideFromRight {
+  0% {
+    opacity: 1;
+    transform: translate(0px, 0px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-500px, 0px);
+  }
+}
+
 #photo-gallery {
   display: none;
   transition: 0.5s;
@@ -143,13 +267,13 @@ body {
 }
 
 .gallery-animation {
-  animation: enterFromLeft ease 800ms;
+  animation: dropFromTop ease 800ms;
   animation-iteration-count: 1;
   transform-origin: 50% 50%;
   animation-fill-mode: forwards;
 }
 
-@keyframes enterFromLeft {
+@keyframes dropFromTop {
   0% {
     opacity: 0;
     transform: translate(0px, -1500px);
@@ -169,21 +293,24 @@ body {
       width: 60%;
       height: 60%;
       transition: 0.2s;
-      border: 3px solid #828c96;
+      //border: 3px solid #828c96;
     }
   }
-  .thumbnail {
+  .thumbnail {    
     display: inline;
     //display: block;
-    position: relative;
+    position: relative;    
     img {
+      padding: 5px;
       opacity: 0.5;
       width: 20%;
       height: 20%;
       transition: 0.2s;
-      @include box-shadow(5px, 5px, 5px, #222);
+      background: #343a40;
+      @include box-shadow(0px, 0px, 5px, #222);
     }
     img:hover {
+      //transform: scale(1.02, 1.02);
       opacity: 1;
       transition: 0.2s;
       cursor: pointer;
@@ -207,11 +334,11 @@ body {
     font-size: 12px;
     color: #828c96;
     a {
-      color: #007eff;
+      color: #8b80fc;
       transition: 0.2s;
     }
     a:hover {
-      color: #00ff65;
+      color: #ffcccc;
       transition: 0.2s;
       text-decoration: none;
     }
@@ -220,7 +347,21 @@ body {
 
 @media (max-width: 960px) {
   body {
-    font-size: 16px;
+    h1 {
+      font-size: 24px;
+    }
+    h5 {
+      font-size: 12px;
+    }
+    li {
+      a {
+        font-size: 16px;
+      }      
+    }
+  }
+  #albums {
+    padding: 40px 20px 20px 20px;
+    width: 250px;
   }
   #title {
     padding: 30px;
