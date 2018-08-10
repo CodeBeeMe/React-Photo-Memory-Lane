@@ -43,8 +43,40 @@ SOFTWARE. */
   box-shadow: $inset $x $y $blur $spread $c;
 }
 
+.gray-text {
+  background: #828c96;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.text-grad-lilac-to-pink {
+  background: #8b80fc;
+  background: -webkit-linear-gradient(to right, #8b80fc, #ffcccc);
+  background: linear-gradient(to right, #8b80fc, #ffcccc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.text-grad-pink-to-lilac {
+  background: #8b80fc;
+  background: -webkit-linear-gradient(to right, #ffcccc, #8b80fc);
+  background: linear-gradient(to right, #ffcccc, #8b80fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bg-grad-transp-black-transp {
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(0, 0, 0, 0.8),
+    rgba(0, 0, 0, 0.8),
+    transparent
+  );
+}
+
+
 body {
-  background: #343a40;
+  background-color: hsl(210, 10%, 23%);
+  background-image: url("https://www.transparenttextures.com/patterns/black-linen.png");
 }
 
 #content {
@@ -53,81 +85,152 @@ body {
 #wrapper {
 }
 
-#title {
-  padding: 50px;
-  margin-top: 17%;
-  //@include box-shadow(10px, 10px, 15px, #111);
-  background: linear-gradient(
-    to right,
-    transparent,
-    rgba(0, 0, 0, 0.8),
-    rgba(0, 0, 0, 0.8),
-    transparent
-  );
-  transition: 0.5s;  
-  .icons {    
-    cursor: pointer;
-    display: none;
-    padding: 7px 20px 0px 20px;
+#intro {
+  //background: #000;
+  @extend .bg-grad-transp-black-transp;
+  position: fixed;
+  margin: auto;
+  width: 99%;
+  height: 100%;
+  #heart {
+    display: flex;
+    position: absolute;
+    margin: auto;
+    //background: #00f260;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 400px;
+    width: 400px;
+    transition: 0.5s;
     i {
-      font-size: 42px;
-      background: #828c96;      
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      position: absolute;
+      cursor: pointer;
+      font-size: 20em;      
+      @extend .text-grad-lilac-to-pink;
+      transition: 0.5s;
     }
     i:hover {
-      background: #00f260;
-      background: -webkit-linear-gradient(to right, #8b80fc, #ffcccc);
-      background: linear-gradient(to right, #8b80fc, #ffcccc);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }  
-  }
-  .open {
-    i {
-      background: #00f260;
-      background: -webkit-linear-gradient(to right, #8b80fc, #ffcccc);
-      background: linear-gradient(to right, #8b80fc, #ffcccc);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      //@include box-shadow-inset(inset, 0px, 0px, 315px, 2px, #8b80fc);
+      //@include radius(50%);
+      transition: 0.5s;
     }
   }
-  .browse {    
+  #heart:hover {
+    //width: 0px;
+    //transition: 0.5s;
   }
-  .realign {    
+}
+
+.heart-animation {
+  animation: heartSpin linear 2s;
+  animation-iteration-count: 1;
+  transform-origin: 50% 50%;
+  animation-fill-mode: forwards; /*when the spec is finished*/
+  
+}
+
+@keyframes heartSpin{
+  0% {
+    opacity: 1;
+    //transform:  scaleX(1.00);
+    transform:  scale(1.2, 1.2);
   }
+  20% {
+    //transform:  scaleX(-1.00);
+    transform:  scale(1, 1);
+  }
+  40% {
+    //transform:  scaleX(1.00);
+    transform:  scale(1.2, 1.2);
+  }
+  60% {
+    //transform:  scaleX(-1.00);
+    transform:  scale(1, 1);
+  }
+  80% {
+    opacity: 1;
+    //transform:  scaleX(1.00);
+    transform:  scale(1.2, 1.2);
+  }
+  100% {
+    opacity: 0;
+    //transform:  scaleX(-1.00);
+    transform:  scale(10, 10);
+  }
+}
+
+
+
+#intro:hover {  
+  transition: 0.2s;
+}
+
+#title {
+  padding: 50px;
+  margin-top: 15%;
+  //@include box-shadow(10px, 10px, 15px, #111);  
+  @extend .bg-grad-transp-black-transp;
+  transition: 0.2s;
   h1 {
     margin: 0 auto;
     padding: 5px 20px 10px 20px;
     font-weight: bold;
     font-size: 102px;
     @include radius(20px);
-    background: #00f260;
-    background: -webkit-linear-gradient(to right, #ffcccc, #8b80fc);
-    background: linear-gradient(to right, #ffcccc, #8b80fc);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    @extend .text-grad-pink-to-lilac;
     cursor: pointer;
     border: 3px solid #828c96;
     border-left: none;
     border-right: none;
     //text-shadow: -2px -2px 1px #111;
   }
+  .icons {
+    display: none;
+    padding: 7px 20px 0px 20px;
+    i:active {
+      font-size: 41px;
+    }
+    i {
+      cursor: pointer;
+      font-size: 42px;
+      @extend .gray-text;
+    }
+    i:hover {
+      @extend .text-grad-lilac-to-pink;
+    }
+  }
+  .open {
+    i {
+      @extend .text-grad-lilac-to-pink;
+    }
+  }
+  #browse {
+    span {
+      position: absolute;
+      font-weight: bold;
+      margin-left: 3px;
+      font-size: 26px;
+      color: #828c96;
+    }
+  }
+  #name {
+    margin-left: -10px;
+  }
+  #realign {
+  }
 }
 
-.justify-content-center {
+.enter:hover {
   transform: scale(0.98, 0.98);
-  transition: 0.5s;
+  transition: 0.2s;
 }
 
 .title-grad {
-  background: linear-gradient(
-    to right,
-    transparent,
-    rgba(0, 0, 0, 0.8),
-    rgba(0, 0, 0, 0.8),
-    transparent
-  );
+  @extend .bg-grad-transp-black-transp;
 }
 
 .title-animation {
@@ -149,41 +252,29 @@ body {
 #albums {
   display: none;
   opacity: 0;
-  position: fixed;  
+  position: fixed;
   transition: 0.5s;
   //margin-top: 2%;
   height: 100%;
   //width: 19.5%;
   width: 374px;
   padding: 50px;
-  background: linear-gradient( to left, #343a40, rgba(0, 0, 0, 1) );
+  background: linear-gradient(to left, #343a40, rgba(0, 0, 0, 1));
   //background: #343a40;
   z-index: 10;
   transition: 0.5s;
-  @include box-shadow(0px, 0px, 5px, #222);
+  @include box-shadow(0px, 0px, 25px, #111);
   #navbar {
     h1 {
-      background: #00f260;
-      background: -webkit-linear-gradient(to left, #8b80fc, #ffcccc);
-      background: linear-gradient(to left, #8b80fc, #ffcccc);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      @extend .text-grad-pink-to-lilac;
     }
     h5 {
-      background: #00f260;
-      background: -webkit-linear-gradient(to right, #8b80fc, #ffcccc);
-      background: linear-gradient(to right, #8b80fc, #ffcccc);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      @extend .text-grad-lilac-to-pink;
     }
     i {
-      background: #00f260;
-      background: -webkit-linear-gradient(to right, #8b80fc, #ffcccc);
-      background: linear-gradient(to right, #8b80fc, #ffcccc);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      }
+      @extend .text-grad-lilac-to-pink;
     }
+  }
   #section-nav {
     list-style: none;
     padding: 10px 0px 0px 0px;
@@ -194,11 +285,7 @@ body {
         border-top: none;
         border-bottom: none;
         @include radius(10px);
-        background: #8b80fc;
-        background: -webkit-linear-gradient(to right, #8b80fc, #ffcccc);
-        background: linear-gradient(to right, #8b80fc, #ffcccc);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        @extend .text-grad-lilac-to-pink;
         //@include box-shadow-inset(inset, 0px, 0px, 15px, 2px, #8b80fc);
       }
     }
@@ -209,22 +296,16 @@ body {
       font-size: 24px;
       padding: 5px;
       a {
-        background: #828c96;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        @extend .gray-text;
       }
       a:hover {
-        background: #8b80fc;
-        background: -webkit-linear-gradient(to right, #8b80fc, #ffcccc);
-        background: linear-gradient(to right, #8b80fc, #ffcccc);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        @extend .text-grad-lilac-to-pink;
       }
     }
-  }  
+  }
 }
 
-.albums-animation-in {  
+.albums-animation-in {
   animation: slideFromLeft ease 500ms;
   animation-iteration-count: 1;
   transform-origin: 50% 50%;
@@ -242,7 +323,7 @@ body {
   }
 }
 
-.albums-animation-out {  
+.albums-animation-out {
   animation: slideFromRight ease 500ms;
   animation-iteration-count: 1;
   transform-origin: 50% 50%;
@@ -296,10 +377,10 @@ body {
       //border: 3px solid #828c96;
     }
   }
-  .thumbnail {    
+  .thumbnail {
     display: inline;
     //display: block;
-    position: relative;    
+    position: relative;
     img {
       padding: 5px;
       opacity: 0.5;
@@ -307,7 +388,7 @@ body {
       height: 20%;
       transition: 0.2s;
       background: #343a40;
-      @include box-shadow(0px, 0px, 5px, #222);
+      @include box-shadow(0px, 0px, 5px, #111);
     }
     img:hover {
       //transform: scale(1.02, 1.02);
@@ -321,13 +402,7 @@ body {
 
 #footer {
   display: none;
-  background: linear-gradient(
-    to right,
-    transparent,
-    rgba(0, 0, 0, 0.6),
-    rgba(0, 0, 0, 0.6),
-    transparent
-  );
+  @extend .bg-grad-transp-black-transp;
   //background: #222; //rgba(52, 58, 64, 1);
   h6 {
     margin-bottom: 0;
@@ -356,7 +431,7 @@ body {
     li {
       a {
         font-size: 16px;
-      }      
+      }
     }
   }
   #albums {
@@ -365,8 +440,17 @@ body {
   }
   #title {
     padding: 30px;
+    #browse {
+      span {
+        font-weight: normal;
+        font-size: 22px;
+      }
+    }
     h1 {
       font-size: 2.5em;
+      i {
+        font-size: 102px;
+      }
     }
   }
 }
@@ -377,6 +461,12 @@ body {
   }
   #title {
     padding: 15px;
+    #browse {
+      span {
+        font-weight: normal;
+        font-size: 16px;
+      }
+    }
     h1 {
       font-size: 2em;
     }
